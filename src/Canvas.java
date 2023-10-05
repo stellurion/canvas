@@ -12,8 +12,6 @@ public class Canvas implements ActionListener
 {
 	private JFrame frame;
 	
-//	private boolean miniGameMode = false;
-	
 	private JPanel settings;
 	private JPanel startPage;
 	private JLayeredPane canvas;
@@ -103,17 +101,6 @@ public class Canvas implements ActionListener
 	private JPanel testing;
 	
 	private ArrayList<Shape> shapeList;
-		
-	//TODO LIST
-	//dark mode
-	//option for bounds/collision (if shape hits the bounds of another shape it stops growing)
-	//position offset
-	//minigame
-	
-	//currently not working
-	//settings panel
-	//triangle shape
-	//disappearing shapes
 	
 	public Canvas()
 	{
@@ -140,10 +127,6 @@ public class Canvas implements ActionListener
 		buttons();
 		sliders();
 		adding();
-
-		//run makingshape before start to disregard delay
-		//but dont acutally add it
-		//make new thread when start so 2animation can happen at same time 
 	}
 	
 	public void instructions()
