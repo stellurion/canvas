@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Canvas implements ActionListener
 {
-	private JFrame frame;
+	private JFrame frame; //make this all in seperate file
 	
 	private JPanel settings;
 	private JPanel startPage;
@@ -200,166 +200,73 @@ public class Canvas implements ActionListener
 		hideRandom = createJPanel(new int[]{0, 0, 275, 560}, true, new Color(122, 203, 255), false);
 	}
 
-	public JButton createJButton(int[] bounds, String text, String font, int fontsize, Color color, Boolean opaque) {
+	public JButton createJButton(int[] bounds, String text, String font, int fontsize, Boolean opaque) {
 		JButton button = new JButton();
 		button.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		button.setText(text);		
 		button.setFont(new Font(font, Font.PLAIN, fontsize));
-		button.setBackground(color);
-		button.setOpaque(opaque);
+		if(opaque) {button.setOpaque(opaque);}
 		button.addActionListener(this);
 		return button;
 	}
-
-	//you could make two setJButton insetad so you only make once
-
-	public JButton createJButton(String file, int[] bounds, Boolean border) {
+	public JButton createJButton(String file, int[] bounds) {
 		JButton button = new JButton(new ImageIcon(file));
 		button.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
-		button.setBorderPainted(border);
+		button.setContentAreaFilled(false);
+		button.setBorderPainted(false);
 		button.addActionListener(this);
 		return button;
 	}
 
-
 	public void buttons() {
-		//start page buttons
-//		start.setContentAreaFilled(false);
-//		openInstructions.setContentAreaFilled(false);
-		start = createJButton(new int[]{310, 380, 170, 58}, "Start", "Garamond", 30, new Color(255, 255, 255), true);
-		openInstructions = createJButton(new int[]{310, 480, 170, 60}, "Instructions", "Garamond", 27, new Color(255, 255, 255), true);
-		
-		openSettings = new JButton(new ImageIcon("assets/buttons/settings.png"));
-		openSettings.setBounds(680,570,80,65);
-		openSettings.setContentAreaFilled(false);
-		openSettings.setBorderPainted(false);
-		openSettings.addActionListener(this);
-		
-		exit = new JButton(new ImageIcon("assets/buttons/exit.png"));
-		exit.setBounds(0,570,80,65);
-		exit.setContentAreaFilled(false);
-		exit.setBorderPainted(false);
-		exit.addActionListener(this);
-		
-		
+		start = createJButton(new int[]{310, 380, 170, 58}, "Start", "Garamond", 30, true);
+		openInstructions = createJButton(new int[]{310, 480, 170, 60}, "Instructions", "Garamond", 27, true);
+		openSettings = createJButton("assets/buttons/settings.png", new int[]{680,570,80,65});
+		exit = createJButton("assets/buttons/exit.png", new int[]{0,570,80,65});
+
 		//settings buttons
-		hideSettings = new JButton(new ImageIcon("assets/buttons/ximage.png"));
-		hideSettings.setBounds(450,20,40,40);
-		hideSettings.setContentAreaFilled(false);
-		hideSettings.setBorderPainted(false);
-		hideSettings.addActionListener(this);
-		
-		toggleSound = new JButton();
-		toggleSound.setBounds(260, 110, 120, 60);
-		toggleSound.setText("On");	
-		toggleSound.setFont(new Font("Garamond", Font.PLAIN, 20));
+		hideSettings = createJButton("assets/buttons/ximage.png", new int[]{450,20,40,40});
+		toggleSound = createJButton(new int[]{260,110,120,60}, "On", "Garamond", 20, false);
 		toggleSound.setContentAreaFilled(false);
-		toggleSound.addActionListener(this);
-		
-		toggleDisplay = new JButton();
-		toggleDisplay.setBounds(260, 200, 120, 60);
-		toggleDisplay.setText("Light");	
-		toggleDisplay.setFont(new Font("Garamond", Font.PLAIN, 20));
+		toggleDisplay = createJButton(new int[]{260,200,120,60}, "Light", "Garamond", 20, false);
 		toggleDisplay.setContentAreaFilled(false);
-		toggleDisplay.addActionListener(this);
-		
-		toggleMode = new JButton();
-		toggleMode.setBounds(260, 290, 120, 60);
-		toggleMode.setText("Freeform");	
-		toggleMode.setFont(new Font("Garamond", Font.PLAIN, 20));
+		toggleMode = createJButton(new int[]{260, 290, 120, 60}, "Freeform", "Garamond", 20, false);
 		toggleMode.setContentAreaFilled(false);
-		toggleMode.addActionListener(this);
 		
-		//instruc button
-		hideInstruc = new JButton(new ImageIcon("assets/buttons/ximage.png"));
-		hideInstruc.setBounds(450,20,40,40);
-		hideInstruc.setContentAreaFilled(false);
-		hideInstruc.setBorderPainted(false);
-		hideInstruc.addActionListener(this);
-		
-		//canvas buttons
-		openMenu = new JButton(new ImageIcon("assets/buttons/menubutton.png"));
-		openMenu.setBounds(20,20,40,40);
-		openMenu.setContentAreaFilled(false);
-		openMenu.setBorderPainted(false);
-		openMenu.addActionListener(this);
+		hideInstruc = createJButton("assets/buttons/ximage.png", new int[]{450,20,40,40});
+		openMenu = createJButton("assets/buttons/menubutton.png", new int[]{20,20,40,40};)
 		
 		//menu buttons
-		hideMenu = new JButton(new ImageIcon("assets/buttons/hideMenu.png"));
-		hideMenu.setBounds(275,330,40,40);
-		hideMenu.setContentAreaFilled(false);
-		hideMenu.setBorderPainted(false);
-		hideMenu.addActionListener(this);
+		hideMenu = createJButton("assets/buttons/hideMenu.png", new int[]{275,330,40,40});
 		hideMenu.setVisible(false);
-		
-		escapeCanvas = new JButton(new ImageIcon("assets/buttons/exit.png"));
-		escapeCanvas.setBounds(20,572,80,65);
-		escapeCanvas.setContentAreaFilled(false);
-		escapeCanvas.setBorderPainted(false);
-		escapeCanvas.addActionListener(this);
-		
-		resetCanvas = new JButton(new ImageIcon("assets/buttons/refresh.png"));
-		resetCanvas.setBounds(180,575,50,50);
-		resetCanvas.setContentAreaFilled(false);
-		resetCanvas.setBorderPainted(false);
-		resetCanvas.addActionListener(this);
-		
+		escapeCanvas = createJButton("assets/buttons/exit.png", new int[]{20,572,80,65});
+		resetCanvas = createJButton("assets/buttons/refresh.png", new int[]{180,575,50,50});
 		random = new ImageIcon("assets/buttons/random.png");
 		custom = new ImageIcon("assets/buttons/custom.png");
-		toggleRandom = new JButton(random);
-		toggleRandom.setBounds(110,575,50,50);
-		toggleRandom.setContentAreaFilled(false);
-		toggleRandom.setBorderPainted(false);
-		toggleRandom.addActionListener(this);
+		toggleRandom = createJButton("assets/buttons/random.png", new int[]{110,575,50,50});
 		
-		//shape menu buttons
-		circle = new JButton(new ImageIcon("assets/buttons/circleIcon.png"));
-		circle.setBounds(25,70,45,45);
-		circle.setBorderPainted(true);
-		circle.addActionListener(this);
+		//game menu buttons
+		circle = createJButton("assets/buttons/circleIcon.png", new int[]{25,75,45,45});
 		circle.setVisible(false);
-		
-		triangle = new JButton(new ImageIcon("assets/buttons/triangleIcon.png"));
-		triangle.setBounds(109,70,45,45);
-		triangle.setBorderPainted(true);
-		triangle.addActionListener(this);
+		triangle = createJButton("assets/buttons/triangleIcon.png", new int[]{109,70,45,45});
 		triangle.setVisible(false);
-		
-		square = new JButton(new ImageIcon("assets/buttons/squareIcon.png"));
-		square.setBounds(190,70,45,45);
-		square.setBorderPainted(true);
-		square.addActionListener(this);
+		square = createJButton("assets/buttons/squareIcon.png", new int[]{190,70,45,45});
 		square.setVisible(false);
-		
-		//easing menu buttons
-		easeIn = new JButton(new ImageIcon("assets/buttons/easeIn.png"));
-		easeIn.setBounds(25,200,45,45);
-		easeIn.setBorderPainted(true);
-		easeIn.addActionListener(this);
+		easeIn = createJButton("assets/buttons/easeIn.png", new int[]{25,200,45,45});
 		easeIn.setVisible(false);
-		
-		easeOut = new JButton(new ImageIcon("assets/buttons/easeOut.png"));
-		easeOut.setBounds(109,200,45,45);
-		easeOut.setBorderPainted(true);
-		easeOut.addActionListener(this);
+		easeOut = createJButton("assets/buttons/easeOut.png", new int[]{109,200,45,45});
 		easeOut.setVisible(false);
-		
-		easeInOut = new JButton(new ImageIcon("assets/buttons/easeInOut.png"));
-		easeInOut.setBounds(190,200,45,45);
-		easeInOut.setBorderPainted(true);
-		easeInOut.addActionListener(this);
+		easeInOut = createJButton("assets/buttons/easeInOut.png", new int[]{190,200,45,45});
 		easeInOut.setVisible(false);
 	}
 	
-	public void sliders()
-	{
+	public void sliders() {
 		rSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 255);
 		rSlider.setOpaque(false);
 		rSlider.setBounds(45, 335, 200, 50);
 
 		rSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e)
-			{
+			public void stateChanged(ChangeEvent e) {
 				colors[0] = rSlider.getValue();
 				colorPreview.setBackground(new Color(colors[0], colors[1], colors[2]));
 				colorPreview.repaint();
@@ -370,8 +277,7 @@ public class Canvas implements ActionListener
 		gSlider.setOpaque(false);
 		gSlider.setBounds(45, 370, 200, 50);
 		gSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e)
-			{
+			public void stateChanged(ChangeEvent e) {
 				colors[1] = gSlider.getValue();
 				colorPreview.setBackground(new Color(colors[0], colors[1], colors[2]));
 				colorPreview.repaint();
@@ -382,8 +288,7 @@ public class Canvas implements ActionListener
 		bSlider.setOpaque(false);
 		bSlider.setBounds(45, 405, 200, 50); 
 		bSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e)
-			{
+			public void stateChanged(ChangeEvent e) {
 				colors[2] = bSlider.getValue();
 				colorPreview.setBackground(new Color(colors[0], colors[1], colors[2]));
 				colorPreview.repaint();
@@ -400,10 +305,7 @@ public class Canvas implements ActionListener
 		
 		if(randomized) {
 			Random generator = new Random();
-			for(int i = 0; i < coloring.length; i++)
-			{
-				coloring[i] = generator.nextInt((250 - 0) + 1) + 0;
-			}
+			for(int i = 0; i < coloring.length; i++) {coloring[i] = generator.nextInt((250 - 0) + 1) + 0;}
 			
 			typeShape = generator.nextInt((1 - 0) + 1) + 0;
 			typeEasing = generator.nextInt((2 - 0) + 1) + 0;
@@ -439,13 +341,11 @@ public class Canvas implements ActionListener
 	
 	public void actionPerformed (ActionEvent e) {
 		//startpage buttons
-		if(e.getSource() == start)
-		{
+		if(e.getSource() == start) {
 			startPage.setVisible(false);
 			canvas.setVisible(true);
 		}
-		if(e.getSource() == openInstructions)
-		{
+		if(e.getSource() == openInstructions) {
 			start.setEnabled(false);
 			openInstructions.setEnabled(false);
 			openInstructions.setVisible(false);
@@ -453,43 +353,35 @@ public class Canvas implements ActionListener
 			instruc.setVisible(true);
 			//make x button on instruc so you can exit out from it
 		}
-		if(e.getSource() == openSettings)
-		{
+		if(e.getSource() == openSettings) {
 			start.setEnabled(false);
 			openInstructions.setEnabled(false);
 			greyOverlay.setVisible(true);
 			settings.setVisible(true);
 		}
-		if(e.getSource() == exit)
-		{
-			System.exit(0);
-		}
+		if(e.getSource() == exit) {System.exit(0);}
 		
 		
 		//settings buttons
-		if(e.getSource() == hideSettings)
-		{
+		if(e.getSource() == hideSettings) {
 			settings.setVisible(false);
 			greyOverlay.setVisible(false);
 			start.setEnabled(true);
 			openInstructions.setEnabled(true);
 		}
-		if(e.getSource() == toggleMode)
-		{
+		if(e.getSource() == toggleMode) {
 			if(toggleMode.getText().equals("Freeform"))
 				toggleMode.setText("MiniGame");
 			else
 				toggleMode.setText("Freeform");
 		}
-		if(e.getSource() == toggleDisplay)
-		{
+		if(e.getSource() == toggleDisplay) {
 			if(toggleDisplay.getText().equals("Light"))
 				toggleDisplay.setText("Dark");
 			else
 				toggleDisplay.setText("Light");
 		}
-		if(e.getSource() == toggleSound)
-		{
+		if(e.getSource() == toggleSound) {
 			if(toggleSound.getText().equals("On"))
 				toggleSound.setText("Off");
 			else
@@ -498,8 +390,7 @@ public class Canvas implements ActionListener
 		}	
 		
 		//instruc button
-		if(e.getSource() == hideInstruc)
-		{
+		if(e.getSource() == hideInstruc) {
 			instruc.setVisible(false);
 			greyOverlay.setVisible(false);
 			start.setEnabled(true);
@@ -507,10 +398,9 @@ public class Canvas implements ActionListener
 			openInstructions.setVisible(true);
 		}
 		
-	
+
 		//canvas button
-		if(e.getSource() == openMenu) //make this toggle Menu
-		{
+		if(e.getSource() == openMenu) { //make this toggle Menu
 			menu.setVisible(true);
 			hideMenu.setVisible(true);
 			greyOverlayCanvas.setVisible(true);
@@ -520,17 +410,14 @@ public class Canvas implements ActionListener
 					shapeList.get(i).stopTimer();
 			}
 		}
-		if(e.getSource() == hideMenu)
-		{
+		if(e.getSource() == hideMenu) {
 			menu.setVisible(false);
 			hideMenu.setVisible(false);
 			greyOverlayCanvas.setVisible(false);
 			//if timer isn't finished, continue them
 			
-			if(shapeList != null)
-			{
-				for(int i = 0; i < shapeList.size(); i++)
-				{
+			if(shapeList != null) {
+				for(int i = 0; i < shapeList.size(); i++) {
 					if(!shapeList.get(i).isFinished())
 						shapeList.get(i).startTimer();
 				}
@@ -539,27 +426,18 @@ public class Canvas implements ActionListener
 		
 		
 		//menu buttons
-		if(e.getSource() == resetCanvas)
-		{
-			reset();
-		}
-		if(e.getSource() == escapeCanvas)
-		{
+		if(e.getSource() == resetCanvas) {reset();}
+		if(e.getSource() == escapeCanvas) {
 			reset();
 			canvas.setVisible(false);
 			startPage.setVisible(true);
 			hideMenu.doClick();
 			
-			if(toggleRandom.getIcon() == custom)
-			{
-				toggleRandom.doClick();
-			}
+			if(toggleRandom.getIcon() == custom) {toggleRandom.doClick();}
 		}
-		if(e.getSource() == toggleRandom)
-		{
+		if(e.getSource() == toggleRandom) {
 			//random should shut off top menu
-			if(toggleRandom.getIcon() == random)
-			{
+			if(toggleRandom.getIcon() == random) {
 				toggleRandom.setIcon(custom);
 				randomized = false;
 				rSlider.setEnabled(true);
@@ -576,8 +454,7 @@ public class Canvas implements ActionListener
 				easeOut.setVisible(true);
 				easeInOut.setVisible(true);
 			}
-			else
-			{
+			else {
 				toggleRandom.setIcon(random);
 				randomized = true;
 				rSlider.setEnabled(false);
@@ -596,40 +473,17 @@ public class Canvas implements ActionListener
 			}
 			
 		}
-		if(e.getSource() == circle)
-		{
-			shape = 0;
-		}
-		if(e.getSource() == square)
-		{
-			shape = 1;
-		}
-//		if(e.getSource() == square)
-//		{
-//			shape = 2;
-//		}
-		if(e.getSource() == easeIn)
-		{
-			easing = 0;
-		}
-		if(e.getSource() == easeOut)
-		{
-			easing = 1;
-		}
-		if(e.getSource() == easeInOut)
-		{
-			easing = 2;
-		}
-		
+		if(e.getSource() == circle) {shape = 0;}
+		if(e.getSource() == square) {shape = 1;}
+//		if(e.getSource() == square) {shape = 2;}
+		if(e.getSource() == easeIn) {easing = 0;}
+		if(e.getSource() == easeOut) {easing = 1;}
+		if(e.getSource() == easeInOut) {easing = 2;}
 	}
 	
-	public void reset()
-	{
+	public void reset() {
 		colors = new int[3];
-		for(int i = 0; i < colors.length; i++)
-		{
-			colors[i] = 255;
-		}
+		for(int i = 0; i < colors.length; i++) {colors[i] = 255;}
 		
 		rSlider.setValue(255);
 		gSlider.setValue(255);
@@ -638,10 +492,8 @@ public class Canvas implements ActionListener
 		shape = 0;
 		easing = 0;
 		
-		if(shapeList != null)
-		{
-			for(int i = 0; i < shapeList.size(); i++)
-			{
+		if(shapeList != null) {
+			for(int i = 0; i < shapeList.size(); i++) {
 				canvas.remove(shapeList.get(i));
 				canvas.repaint();
 			}
@@ -649,8 +501,7 @@ public class Canvas implements ActionListener
 		shapeList.clear();
 	}
 	
-	public void adding()
-	{
+	public void adding() {
 		startPage.add(settings); //settings is on top
 		startPage.add(instruc);
 		startPage.add(greyOverlay);
