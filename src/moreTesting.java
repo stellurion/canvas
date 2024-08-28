@@ -2,11 +2,8 @@ import javax.swing.JFrame;
 
 //testing in a smaller frame for the customization of shape
 //completely disregard, not important for game
-public class moreTesting 
-{
-
-	public static void main(String[] args) 
-	{
+public class moreTesting {
+	public static void main(String[] args)  {
 		int[] colores = {220, 100, 7};
 		int shape = 0; //sometimes has things disappear
 		int easing = 1;

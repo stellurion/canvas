@@ -187,10 +187,7 @@ public class Canvas implements ActionListener
 		canvas.setBackground(new Color(255, 255, 255));
 		canvas.setLayout(null);
 		canvas.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if(!menu.isVisible())
-					makingShapeTM(e.getX()-230, e.getY()-120);	
-			}
+			public void mouseClicked(MouseEvent e) { if(!menu.isVisible()) {generateShape(e.getX()-230, e.getY()-120);}}
 		}); //turn off enable when in menu
 		canvas.setOpaque(true);
 		
@@ -217,10 +214,26 @@ public class Canvas implements ActionListener
 		button.addActionListener(this);
 		return button;
 	}
+	public JSlider createJSlider(int y, int color) {
+		JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 255, 255);
+		slider.setOpaque(false);
+		slider.setBounds(45, 335, 200, 50);
+
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				colors[0] = slider.getValue();
+				colorPreview.setBackground(new Color(colors[0], colors[1], colors[2]));
+				colorPreview.repaint();
+			}
+		});
+		return slider;
+	}
 
 	public void buttons() {
 		start = createJButton(new int[]{310, 380, 170, 58}, "Start", "Garamond", 30, true);
+		start.setBackground(new Color(255, 255, 255));
 		openInstructions = createJButton(new int[]{310, 480, 170, 60}, "Instructions", "Garamond", 27, true);
+		openInstructions.setBackground(new Color(255, 255, 255));
 		openSettings = createJButton("assets/buttons/settings.png", new int[]{680,570,80,65});
 		exit = createJButton("assets/buttons/exit.png", new int[]{0,570,80,65});
 
@@ -234,7 +247,7 @@ public class Canvas implements ActionListener
 		toggleMode.setContentAreaFilled(false);
 		
 		hideInstruc = createJButton("assets/buttons/ximage.png", new int[]{450,20,40,40});
-		openMenu = createJButton("assets/buttons/menubutton.png", new int[]{20,20,40,40};)
+		openMenu = createJButton("assets/buttons/menubutton.png", new int[]{20,20,40,40});
 		
 		//menu buttons
 		hideMenu = createJButton("assets/buttons/hideMenu.png", new int[]{275,330,40,40});
@@ -261,43 +274,12 @@ public class Canvas implements ActionListener
 	}
 	
 	public void sliders() {
-		rSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 255);
-		rSlider.setOpaque(false);
-		rSlider.setBounds(45, 335, 200, 50);
-
-		rSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				colors[0] = rSlider.getValue();
-				colorPreview.setBackground(new Color(colors[0], colors[1], colors[2]));
-				colorPreview.repaint();
-			}
-		});
-		
-		gSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 255);
-		gSlider.setOpaque(false);
-		gSlider.setBounds(45, 370, 200, 50);
-		gSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				colors[1] = gSlider.getValue();
-				colorPreview.setBackground(new Color(colors[0], colors[1], colors[2]));
-				colorPreview.repaint();
-			}
-		});
-
-		bSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 255);
-		bSlider.setOpaque(false);
-		bSlider.setBounds(45, 405, 200, 50); 
-		bSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				colors[2] = bSlider.getValue();
-				colorPreview.setBackground(new Color(colors[0], colors[1], colors[2]));
-				colorPreview.repaint();
-			}
-		});
-
+		rSlider = createJSlider(335, 0);
+		gSlider = createJSlider(370, 1);
+		bSlider = createJSlider(405, 2);
 	}
 	
-	public void makingShapeTM(int x, int y)
+	public void generateShape(int x, int y)
 	{
 		int[] coloring = new int[3];
 		int typeShape;
@@ -311,10 +293,7 @@ public class Canvas implements ActionListener
 			typeEasing = generator.nextInt((2 - 0) + 1) + 0;
 		}
 		else {
-			coloring[0] = colors[0];
-			coloring[1] = colors[1];
-			coloring[2] = colors[2];
-			
+			for(int i = 0; i < 3; i++) {coloring[i] = colors[i];}
 			typeShape = shape;
 			typeEasing = easing;
 		}
