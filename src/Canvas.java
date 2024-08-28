@@ -102,8 +102,7 @@ public class Canvas implements ActionListener
 	
 	private ArrayList<Shape> shapeList;
 	
-	public Canvas()
-	{
+	public Canvas() {
 		frame = new JFrame();
 		frame.setSize(800, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,9 +111,8 @@ public class Canvas implements ActionListener
 		playInstance();
 	}
 	
-	public void playInstance()
-	{
-		randomized = true; //custom is broken right now
+	public void playInstance() {
+		randomized = true;
 		
 		colors = new int[3];
 		colors[0] = 255;
@@ -128,100 +126,60 @@ public class Canvas implements ActionListener
 		sliders();
 		adding();
 	}
-	
-	public void instructions()
-	{
-		instrucLabel = new JLabel("Welcome to Canvas!");
-		instrucLabel.setFont(new Font("Garamond", Font.PLAIN, 30));
-		instrucLabel.setBounds(30, 40, 400, 30);
+
+	public JLabel createImageLabel(String file, int[] bounds, Boolean visible) {
+		JLabel label = new JLabel(new ImageIcon(file));
+		label.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		label.setVisible(visible);
+		return label;
+	}
+	public JLabel createTextLabel(String name, int[] bounds, String font, int fontsize) {
+		JLabel label = new JLabel(name);
+		label.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		label.setFont(new Font(name, Font.PLAIN, fontsize));
+		return label;
+	}
+	public JPanel createJPanel(int[] bounds, Boolean visible, Color color, Boolean layout) {
+		JPanel panel = new JPanel();
+		panel.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		panel.setVisible(visible);
+		panel.setBackground(color);
 		
-		freeFormInstruc = new JLabel("<html>"
-				+ "Canvas is a game where the user is the creator.<br/>"
-				+ "When clicking on the screen, different shapes will appear, simulating natural motion in their appearance (through easing). By default, the color, shape, and easing type are randomly generated.<br/>"
-				+ "However, there is a menu to customize these attributes, allowing for complete user control.<br/><br/><html>");
-		freeFormInstruc.setFont(new Font("Garamond", Font.PLAIN, 20));
-		freeFormInstruc.setBounds(30, 0, 400, 400);
-		
-		controls = new JLabel("<html>Press the 3 lines to access the menu that adjusts shape generation.<html>");
-		controls.setFont(new Font("Garamond", Font.PLAIN, 20));
-		controls.setBounds(30, 152, 400, 400);
+		if(!layout)
+			panel.setLayout(null);
+
+		return panel;
 	}
 	
-	public void labels()
-	{
-		//image labels
-		title = new JLabel(new ImageIcon("assets/canvastext.png"));
-		title.setBounds(150,130,500,160);
-		
-		startBackg = new JLabel(new ImageIcon("assets/watercolorsplash.png"));
-		startBackg.setBounds(0,-10,800,700);
-		
-		greyOverlay = new JLabel(new ImageIcon("assets/overlay.png"));
-		greyOverlay.setBounds(0,0,800,700);
-		greyOverlay.setVisible(false);
-		
-		greyOverlayCanvas = new JLabel(new ImageIcon("assets/overlay.png"));
-		greyOverlayCanvas.setBounds(0,0,800,700);
-		greyOverlayCanvas.setVisible(false);
-		
-		//text labels
-		soundLabel = new JLabel("Sound");
-		soundLabel.setBounds(123, 130, 100, 20);
-		soundLabel.setFont(new Font("Garamond", Font.PLAIN, 30));
-		//sound toggle, display(dark mode light mode) toggle, mode toggle minigame freeform
-		
-		displayLabel = new JLabel("Display");
-		displayLabel.setBounds(123, 215, 100, 30);
-		displayLabel.setFont(new Font("Garamond", Font.PLAIN, 30));
-		
-		modeLabel = new JLabel("Mode");
-		modeLabel.setBounds(123, 310, 100, 20);
-		modeLabel.setFont(new Font("Garamond", Font.PLAIN, 30));
-		
-		rValue = new JLabel("R");
-		rValue.setBounds(23, 340, 24, 30);
-		rValue.setFont(new Font("Arial", Font.PLAIN, 24));
-		
-		gValue = new JLabel("G");
-		gValue.setBounds(23, 377, 24, 30);
-		gValue.setFont(new Font("Arial", Font.PLAIN, 24));
-		
-		bValue = new JLabel("B");
-		bValue.setBounds(23, 413, 24, 30);
-		bValue.setFont(new Font("Arial", Font.PLAIN, 24));
-		
-		shapeLabel = new JLabel("Shapes");
-		shapeLabel.setBounds(23, 20, 100, 30);
-		shapeLabel.setFont(new Font("Garamond", Font.PLAIN, 27));
-		
-		easingLabel = new JLabel("Easings");
-		easingLabel.setBounds(23, 150, 100, 30);
-		easingLabel.setFont(new Font("Garamond", Font.PLAIN, 27));
-		
-		colorLabel = new JLabel("Color");
-		colorLabel.setBounds(23, 300, 100, 30);
-		colorLabel.setFont(new Font("Garamond", Font.PLAIN, 27));
+	public void instructions() {
+		instrucLabel = createTextLabel("Welcome to Canvas!", new int[]{30, 40, 400, 30}, "Garamond", 30);
+		freeFormInstruc = createTextLabel("<html>"
+		+ "When clicking on the screen, different shapes will appear, simulating natural motion in their appearance (through easing)."
+		+ " By default, the color, shape, and easing type are randomly generated.<br/>"
+		+ "However, there is a menu to customize these attributes, allowing for complete user control.<br/><br/><html>", new int[]{30, 20, 400, 400}, "Garamond", 20);
+		controls = createTextLabel("<html>Press the 3 lines to access the menu that adjusts shape generation.<html>", new int[]{30, 160, 400, 400}, "Garamond", 20);
+	}
+
+	public void labels() {
+		title = createImageLabel("assets/canvastext.png", new int[]{150, 130, 500, 160}, true);
+		startBackg = createImageLabel("assets/watercolorsplash.png", new int[]{0, -10, 800, 700}, true);
+		greyOverlay = createImageLabel("assets/overlay.png", new int[]{0, 0, 800, 700}, false);
+		greyOverlayCanvas = createImageLabel("assets/overlay.png", new int[]{0, 0, 800, 700}, false);
+		soundLabel = createTextLabel("Sound", new int[]{123, 130, 100, 20,}, "Garamond", 30); 
+		displayLabel = createTextLabel("Display", new int[]{123, 215, 100, 30}, "Garamond", 30);
+		modeLabel = createTextLabel("Mode", new int[]{123, 310, 100, 20}, "Garamond", 30);
+		rValue = createTextLabel("R", new int[]{23, 340, 24, 30}, "Arial", 24);
+		gValue = createTextLabel("G", new int[]{23, 377, 24, 30}, "Arial", 24);
+		bValue = createTextLabel("B", new int[]{23, 413, 24, 30}, "Arial", 24);
+		shapeLabel = createTextLabel("Shapes", new int[]{23, 20, 100, 30}, "Garamond", 27);
+		easingLabel = createTextLabel("Easings", new int[]{23, 150, 100, 30}, "Garamond", 27);
+		colorLabel = createTextLabel("Color", new int[]{23, 300, 100, 30}, "Garamond", 27);
 	}
 	
-	public void panels()
-	{
-		startPage = new JPanel();
-		startPage.setBounds(0,0,800,700);
-		startPage.setVisible(true);
-		startPage.setBackground(new Color(255, 255, 255));
-		startPage.setLayout(null);
-		
-		settings = new JPanel();
-		settings.setBounds(133,110, 508, 450);
-		settings.setVisible(false);
-		settings.setBackground(new Color(255, 255, 255));
-		settings.setLayout(null);
-		
-		instruc = new JPanel();
-		instruc.setBounds(133,110, 508, 450);
-		instruc.setVisible(false);
-		instruc.setBackground(new Color(255, 255, 255));
-		instruc.setLayout(null);
+	public void panels() {
+		startPage = createJPanel(new int[]{0, 0, 800, 700}, true, new Color(255, 255, 255), false);
+		settings = createJPanel(new int[]{133, 110, 508, 450}, false, new Color(255, 255, 255), false);
+		instruc = createJPanel(new int[]{133, 110, 508, 450}, false, new Color(255, 255, 255), false);
 		
 		canvas = new JLayeredPane();
 		canvas.setBounds(0,0,800,700);
@@ -229,58 +187,47 @@ public class Canvas implements ActionListener
 		canvas.setBackground(new Color(255, 255, 255));
 		canvas.setLayout(null);
 		canvas.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
+			public void mouseClicked(MouseEvent e) {
 				if(!menu.isVisible())
-				{
-					makingShapeTM(e.getX()-230, e.getY()-120);
-				}
-				
+					makingShapeTM(e.getX()-230, e.getY()-120);	
 			}
 		}); //turn off enable when in menu
 		canvas.setOpaque(true);
 		
-		menu = new JPanel();
-		menu.setBounds(0,0, 275, 700);
-		menu.setVisible(false);
-		menu.setBackground(new Color(207, 236, 255));
-		menu.setLayout(null);
-		
-		//the preview 
-		colorPreview = new JPanel();
-		colorPreview.setBounds(38, 472, 195, 80);
-		colorPreview.setBackground(new Color(colors[0], colors[1], colors[2]));
-		
-		testing = new JPanel();
-		testing.setBounds(200, 200, 45, 45);
-		testing.setBackground(new Color(255, 255, 255));
-		
-		hideRandom = new JPanel();
-		hideRandom.setBounds(0,0, 275, 560);
-		hideRandom.setVisible(true);
-		hideRandom.setBackground(new Color(122, 203, 255));
+		menu = createJPanel(new int[]{0, 0, 275, 700}, false, new Color(207, 236, 255), false);
+		colorPreview = createJPanel(new int[]{38, 472, 195, 80}, true, new Color(colors[0], colors[1], colors[2]), false);
+		testing = createJPanel(new int[]{200, 200, 45, 45}, true, new Color(255, 255, 255), false);
+		hideRandom = createJPanel(new int[]{0, 0, 275, 560}, true, new Color(122, 203, 255), false);
 	}
-	
-	public void buttons()
-	{
+
+	public JButton createJButton(int[] bounds, String text, String font, int fontsize, Color color, Boolean opaque) {
+		JButton button = new JButton();
+		button.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		button.setText(text);		
+		button.setFont(new Font(font, Font.PLAIN, fontsize));
+		button.setBackground(color);
+		button.setOpaque(opaque);
+		button.addActionListener(this);
+		return button;
+	}
+
+	//you could make two setJButton insetad so you only make once
+
+	public JButton createJButton(String file, int[] bounds, Boolean border) {
+		JButton button = new JButton(new ImageIcon(file));
+		button.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		button.setBorderPainted(border);
+		button.addActionListener(this);
+		return button;
+	}
+
+
+	public void buttons() {
 		//start page buttons
-		start = new JButton();
-		start.setBounds(310, 380, 170, 58);
-		start.setText("Start");		
-		start.setFont(new Font("Garamond", Font.PLAIN, 30));
 //		start.setContentAreaFilled(false);
-		start.setBackground(new Color(255, 255, 255));
-		start.setOpaque(true);
-		start.addActionListener(this);
-		
-		openInstructions = new JButton();
-		openInstructions.setBounds(310, 480, 170, 60);
-		openInstructions.setText("Instructions");	
-		openInstructions.setFont(new Font("Garamond", Font.PLAIN, 27));
 //		openInstructions.setContentAreaFilled(false);
-		openInstructions.setBackground(new Color(255, 255, 255));
-		openInstructions.setOpaque(true);
-		openInstructions.addActionListener(this);
+		start = createJButton(new int[]{310, 380, 170, 58}, "Start", "Garamond", 30, new Color(255, 255, 255), true);
+		openInstructions = createJButton(new int[]{310, 480, 170, 60}, "Instructions", "Garamond", 27, new Color(255, 255, 255), true);
 		
 		openSettings = new JButton(new ImageIcon("assets/buttons/settings.png"));
 		openSettings.setBounds(680,570,80,65);
@@ -447,13 +394,11 @@ public class Canvas implements ActionListener
 	
 	public void makingShapeTM(int x, int y)
 	{
-		//locals
 		int[] coloring = new int[3];
 		int typeShape;
 		int typeEasing;
 		
-		if(randomized)
-		{
+		if(randomized) {
 			Random generator = new Random();
 			for(int i = 0; i < coloring.length; i++)
 			{
@@ -463,8 +408,7 @@ public class Canvas implements ActionListener
 			typeShape = generator.nextInt((1 - 0) + 1) + 0;
 			typeEasing = generator.nextInt((2 - 0) + 1) + 0;
 		}
-		else
-		{
+		else {
 			coloring[0] = colors[0];
 			coloring[1] = colors[1];
 			coloring[2] = colors[2];
@@ -484,8 +428,7 @@ public class Canvas implements ActionListener
 		canvas.add(theShape,0);
 		
 		shapeList.add(theShape);
-		for(int i = shapeList.size()-1; i > 0 ; i--)
-		{
+		for(int i = shapeList.size()-1; i > 0 ; i--) {
 			int blah = 1;
 			canvas.setLayer(shapeList.get(i), blah);
 			blah++;
@@ -494,8 +437,7 @@ public class Canvas implements ActionListener
 		theShape.startTimer();
 	}
 	
-	public void actionPerformed (ActionEvent e)
-	{
+	public void actionPerformed (ActionEvent e) {
 		//startpage buttons
 		if(e.getSource() == start)
 		{
@@ -506,6 +448,7 @@ public class Canvas implements ActionListener
 		{
 			start.setEnabled(false);
 			openInstructions.setEnabled(false);
+			openInstructions.setVisible(false);
 			greyOverlay.setVisible(true);
 			instruc.setVisible(true);
 			//make x button on instruc so you can exit out from it
@@ -534,39 +477,25 @@ public class Canvas implements ActionListener
 		if(e.getSource() == toggleMode)
 		{
 			if(toggleMode.getText().equals("Freeform"))
-			{
 				toggleMode.setText("MiniGame");
-			}
 			else
-			{
 				toggleMode.setText("Freeform");
-			}
 		}
 		if(e.getSource() == toggleDisplay)
 		{
 			if(toggleDisplay.getText().equals("Light"))
-			{
 				toggleDisplay.setText("Dark");
-			}
 			else
-			{
 				toggleDisplay.setText("Light");
-			}
-			//setbackground to dark colors
 		}
 		if(e.getSource() == toggleSound)
 		{
 			if(toggleSound.getText().equals("On"))
-			{
 				toggleSound.setText("Off");
-			}
 			else
-			{
 				toggleSound.setText("On");
-			}
 			//turn off sound effects
-		}
-		
+		}	
 		
 		//instruc button
 		if(e.getSource() == hideInstruc)
@@ -575,6 +504,7 @@ public class Canvas implements ActionListener
 			greyOverlay.setVisible(false);
 			start.setEnabled(true);
 			openInstructions.setEnabled(true);
+			openInstructions.setVisible(true);
 		}
 		
 	
@@ -585,12 +515,9 @@ public class Canvas implements ActionListener
 			hideMenu.setVisible(true);
 			greyOverlayCanvas.setVisible(true);
 			
-			if(shapeList != null)
-			{
+			if(shapeList != null) {
 				for(int i = 0; i < shapeList.size(); i++)
-				{
 					shapeList.get(i).stopTimer();
-				}
 			}
 		}
 		if(e.getSource() == hideMenu)
@@ -605,9 +532,7 @@ public class Canvas implements ActionListener
 				for(int i = 0; i < shapeList.size(); i++)
 				{
 					if(!shapeList.get(i).isFinished())
-					{
 						shapeList.get(i).startTimer();
-					}
 				}
 			}
 		}
@@ -782,8 +707,7 @@ public class Canvas implements ActionListener
 		frame.setVisible(true);
 	}
 	
-	public static void main(String[] args) 
-	{
+	public static void main(String[] args) {
 		new Canvas();
 	}
 }
