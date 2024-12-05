@@ -9,6 +9,8 @@ Dark Mode
 Option for shape collision (generation stops when it hits another object)
 Position offset
 Clean Object Creation
-	
+
+unupdated... will add local changes soon 
+ 
 Known Bugs:
 Shapes disappearing on generation
